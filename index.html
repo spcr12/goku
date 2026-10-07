@@ -7,10 +7,10 @@
   
   <style>
     /* ==========================================================
-       PALETA INSTITUCIONAL: MAGENTA / VINO IMPERIAL & ORO VIEJO
+       VARIABLES Y PALETA CROMÁTICA INSTITUCIONAL
        ========================================================== */
     :root {
-      --mag-darkest: #18020e;
+      --mag-darkest: #1b0210;
       --mag-dark: #3f0314;
       --mag-primary: #750e2e;
       --mag-vivid: #be185d;
@@ -28,43 +28,60 @@
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
     body {
-      background-color: var(--mag-light);
+      background-color: #faf5f8;
       color: var(--text-main);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* MARCA DE AGUA FIJA DE LA DIOSA THEMIS */
+    .watermark-bg {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: min(85vw, 650px);
+      height: min(85vw, 650px);
+      opacity: 0.038;
+      pointer-events: none;
+      z-index: 0;
     }
 
     /* ==========================================================
-       BARRA PERMANENTE Y NAVEGACIÓN SUPERIOR
+       ENCABEZADO FIJO DE DOS FILAS (STICKY BAR)
        ========================================================== */
-    .top-header-bar {
-      background-color: var(--mag-dark);
+    .sticky-header-container {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+
+    /* Fila Superior */
+    .header-top-row {
+      background: var(--mag-dark);
       color: #ffffff;
       padding: 8px 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      position: sticky;
-      top: 0;
-      z-index: 1000;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.25);
-      border-bottom: 2px solid var(--mag-vivid);
+      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
 
-    .top-header-left {
+    .header-branding {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .badge-gov-logo {
+    .badge-icon {
       background: rgba(255, 255, 255, 0.12);
       padding: 6px;
       border-radius: 8px;
@@ -73,54 +90,15 @@
       justify-content: center;
     }
 
-    .subnav-bar {
-      background-color: var(--mag-darkest);
-      display: flex;
-      overflow-x: auto;
-      padding: 6px 12px;
-      gap: 6px;
-      position: sticky;
-      top: 50px;
-      z-index: 999;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.15);
-    }
-    .subnav-bar::-webkit-scrollbar { display: none; }
-
-    .nav-btn {
-      background: transparent;
-      border: none;
-      color: #fbcfe8;
-      padding: 7px 12px;
-      font-size: 11px;
-      font-weight: 700;
-      cursor: pointer;
-      border-radius: 6px;
-      white-space: nowrap;
-      transition: all 0.2s ease;
-    }
-    .nav-btn:hover, .nav-btn.active {
-      background: rgba(255, 255, 255, 0.15);
-      color: #ffffff;
-    }
-
-    .btn-search-trigger {
-      margin-left: auto;
-      background: linear-gradient(90deg, #be185d, #e11d48) !important;
-      color: #ffffff !important;
-      font-weight: 800;
-      box-shadow: 0 2px 8px rgba(190, 24, 93, 0.4);
-    }
-
-    /* CONTROLES DERECHA */
-    .controls-group {
+    .header-right-widgets {
       display: flex;
       align-items: center;
       gap: 10px;
     }
 
-    .lang-box {
+    .lang-switcher-box {
       display: flex;
-      background: rgba(0,0,0,0.3);
+      background: rgba(0,0,0,0.35);
       padding: 2px;
       border-radius: 6px;
     }
@@ -139,11 +117,11 @@
       color: #ffffff;
     }
 
-    .session-clock {
+    .clock-live-badge {
       background: var(--mag-darkest);
       border: 1px solid var(--mag-primary);
       color: #fce7f3;
-      padding: 4px 8px;
+      padding: 4px 9px;
       border-radius: 6px;
       font-family: monospace;
       font-size: 11px;
@@ -152,13 +130,51 @@
       gap: 5px;
     }
 
+    /* Fila Inferior (Menú Magenta Fijo) */
+    .header-bottom-menu {
+      background: var(--mag-darkest);
+      display: flex;
+      overflow-x: auto;
+      padding: 6px 14px;
+      gap: 8px;
+      border-bottom: 2px solid var(--mag-vivid);
+    }
+    .header-bottom-menu::-webkit-scrollbar { display: none; }
+
+    .menu-nav-btn {
+      background: transparent;
+      border: none;
+      color: #fbcfe8;
+      padding: 7px 12px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      border-radius: 6px;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .menu-nav-btn:hover, .menu-nav-btn.active {
+      background: rgba(255, 255, 255, 0.15);
+      color: #ffffff;
+    }
+
+    .menu-btn-search {
+      margin-left: auto;
+      background: linear-gradient(90deg, #be185d, #e11d48) !important;
+      color: #ffffff !important;
+      font-weight: 800;
+      box-shadow: 0 2px 8px rgba(190, 24, 93, 0.4);
+    }
+
     /* ==========================================================
-       GESTIÓN DE PANTALLAS INDEPENDIENTES (DISPLAY: NONE !IMPORTANT)
+       GESTIÓN DE PANTALLAS MUTUAMENTE EXCLUYENTES
        ========================================================== */
     .screen-stage {
       display: none !important;
       width: 100%;
       flex-grow: 1;
+      position: relative;
+      z-index: 1;
     }
     .screen-stage.active {
       display: flex !important;
@@ -173,21 +189,38 @@
       padding: 20px 14px;
     }
 
-    .academic-card {
+    /* ==========================================================
+       SPLASH SCREEN (PANTALLA 0) CON MARCO BLANCO BISELADO
+       ========================================================== */
+    .splash-card {
       background: var(--surface-white);
-      border-radius: 20px;
+      border-radius: 24px;
       border: 1px solid var(--mag-border);
-      box-shadow: 0 15px 35px rgba(117, 14, 46, 0.12);
+      box-shadow: 0 20px 45px rgba(117, 14, 46, 0.16);
       width: 100%;
       max-width: 620px;
       overflow: hidden;
       text-align: center;
     }
 
-    .academic-card-header {
+    .splash-hero-magenta {
       background: linear-gradient(135deg, #3f0314, #750e2e, #be185d);
       color: white;
-      padding: 26px 20px;
+      padding: 30px 20px 24px;
+    }
+
+    /* Marco Blanco para Themis */
+    .themis-white-frame {
+      margin: 0 auto 14px;
+      width: 120px;
+      height: 120px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.22), inset 0 0 0 3px #fdf2f8;
+      border: 3px solid #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .btn-action-primary {
@@ -213,8 +246,30 @@
     }
 
     /* ==========================================================
-       LÍNEA DE TIEMPO INTERACTIVA
+       LÍNEA DE TIEMPO INTERACTIVA Y STEPPER
        ========================================================== */
+    .stepper-bar {
+      display: flex;
+      justify-content: space-between;
+      margin: 14px 0 20px;
+      font-size: 11px;
+      text-align: center;
+    }
+    .stepper-step { flex: 1; }
+    .stepper-circle {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      margin: 0 auto 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+    }
+    .stepper-done { background: #750e2e; color: white; }
+    .stepper-active { background: #be185d; color: white; box-shadow: 0 0 0 3px rgba(190,24,93,0.25); }
+    .stepper-idle { background: #cbd5e1; color: #64748b; }
+
     .timeline-wrapper {
       position: relative;
       padding: 16px 0 16px 26px;
@@ -226,9 +281,7 @@
       margin-bottom: 18px;
       transition: transform 0.2s;
     }
-    .timeline-node:hover {
-      transform: translateX(4px);
-    }
+    .timeline-node:hover { transform: translateX(4px); }
     .timeline-dot {
       position: absolute;
       left: -35px;
@@ -254,7 +307,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      padding: 7px 11px;
+      padding: 8px 12px;
       border-radius: 8px;
       font-size: 11px;
       font-weight: 700;
@@ -262,11 +315,11 @@
       cursor: pointer;
       color: #ffffff;
       transition: all 0.25s ease;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.12);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.14);
     }
     .btn-interop:hover {
       transform: translateY(-2px) scale(1.03);
-      box-shadow: 0 5px 12px rgba(0,0,0,0.22);
+      box-shadow: 0 5px 14px rgba(0,0,0,0.25);
     }
     .btn-reniec { background: linear-gradient(135deg, #0284c7, #0369a1); }
     .btn-migra { background: linear-gradient(135deg, #d97706, #b45309); }
@@ -274,7 +327,48 @@
     .btn-inpe { background: linear-gradient(135deg, #dc2626, #b91c1c); }
 
     /* ==========================================================
-       MODAL Y VISOR DE RESOLUCIONES / DOCUMENTOS TIPO PDF
+       TABLA DE SEGUIMIENTO CON DOS BOTONES (VER Y DESCARGAR)
+       ========================================================== */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      background: white;
+    }
+    th {
+      background: var(--mag-dark);
+      color: white;
+      text-align: left;
+      padding: 9px 8px;
+      font-weight: 700;
+    }
+    td {
+      padding: 9px 8px;
+      border-bottom: 1px solid #fce7f3;
+    }
+
+    .btn-row-action {
+      border: none;
+      padding: 4px 8px;
+      border-radius: 5px;
+      font-size: 11px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition: opacity 0.15s ease;
+    }
+    .btn-row-action:hover { opacity: 0.88; }
+    .btn-view-pdf { background: #be185d; color: white; }
+    .btn-download-pdf { background: #475569; color: white; }
+
+    /* ==========================================================
+       MODALES Y VISORES
        ========================================================== */
     .modal-overlay {
       position: fixed;
@@ -360,89 +454,90 @@
       z-index: 3000;
       overflow: hidden;
     }
-
-    /* BARRA DE PROGRESO DE ETAPA PROCESAL */
-    .stepper-bar {
-      display: flex;
-      justify-content: space-between;
-      margin: 14px 0 20px;
-      font-size: 11px;
-      text-align: center;
-    }
-    .stepper-step {
-      flex: 1;
-    }
-    .stepper-circle {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      margin: 0 auto 4px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-    }
-    .stepper-active { background: #be185d; color: white; }
-    .stepper-done { background: #750e2e; color: white; }
-    .stepper-idle { background: #cbd5e1; color: #64748b; }
   </style>
 </head>
 <body>
 
   <!-- ==========================================================
-       1. BARRA SUPERIOR PERMANENTE EN TODAS LAS PANTALLAS
+       MARCA DE AGUA INMÓVIL DE LA DIOSA THEMIS
        ========================================================== -->
-  <header class="top-header-bar">
-    <div class="top-header-left">
-      <div class="badge-gov-logo">
-        <svg style="width: 22px; height: 22px; color: #fbcfe8;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M3 21h18"/><path d="M3 10h18"/><path d="M5 10v11"/><path d="M19 10v11"/><path d="M9 10v11"/><path d="M15 10v11"/><path d="M12 2 2 7h20L12 2z"/>
-        </svg>
-      </div>
-      <div>
-        <div style="font-size: 8px; font-weight: 800; color: #fbcfe8; letter-spacing: 0.5px;">PODER JUDICIAL DEL PERÚ</div>
-        <div id="txt-app-title" style="font-size: 12px; font-weight: 700;">CEJ Electrónico - CSJ Puno</div>
-      </div>
-    </div>
-
-    <div class="controls-group">
-      <!-- Selector de Idiomas -->
-      <div class="lang-box">
-        <button id="btn-lang-es" onclick="switchLanguage('es')" class="lang-btn active">ES</button>
-        <button id="btn-lang-en" onclick="switchLanguage('en')" class="lang-btn">EN</button>
-      </div>
-
-      <!-- Temporizador de Sesión -->
-      <div class="session-clock">
-        <span id="txt-session-label">Sesión:</span> <strong id="clock-display">07:00</strong>
-      </div>
-    </div>
-  </header>
-
-  <!-- 2. SUBBARRA HORIZONTAL PERMANENTE -->
-  <nav class="subnav-bar">
-    <button onclick="switchScreen(0)" class="nav-btn" id="nav-item-home">Inicio</button>
-    <button onclick="openInfoView('mision')" class="nav-btn" id="nav-item-mision">Misión</button>
-    <button onclick="openInfoView('vision')" class="nav-btn" id="nav-item-vision">Visión</button>
-    <button onclick="openInfoView('transparencia')" class="nav-btn" id="nav-item-transp">Transparencia</button>
-    <button onclick="openInfoView('contactanos')" class="nav-btn" id="nav-item-contact">Contáctanos</button>
-    <button onclick="startSearchFlow()" class="nav-btn btn-search-trigger" id="nav-item-search">🔍 Búsqueda de Expediente</button>
-  </nav>
+  <div class="watermark-bg">
+    <svg viewBox="0 0 200 200" fill="none" style="width: 100%; height: 100%;">
+      <circle cx="100" cy="100" r="90" fill="none" stroke="#750e2e" stroke-width="4"/>
+      <path d="M100 25 L100 160" stroke="#750e2e" stroke-width="5" stroke-linecap="round"/>
+      <path d="M80 160 L120 160" stroke="#750e2e" stroke-width="8" stroke-linecap="round"/>
+      <path d="M50 55 L150 55" stroke="#750e2e" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="100" cy="55" r="7" fill="#750e2e"/>
+      <path d="M50 55 L35 95" stroke="#750e2e" stroke-width="2.5"/><path d="M50 55 L65 95" stroke="#750e2e" stroke-width="2.5"/>
+      <path d="M25 95 Q50 115 75 95 Z" fill="#750e2e"/>
+      <path d="M150 55 L135 95" stroke="#750e2e" stroke-width="2.5"/><path d="M150 55 L165 95" stroke="#750e2e" stroke-width="2.5"/>
+      <path d="M125 95 Q150 115 175 95 Z" fill="#750e2e"/>
+      <path d="M85 40 Q100 35 115 40" stroke="#750e2e" stroke-width="4"/>
+    </svg>
+  </div>
 
   <!-- ==========================================================
-       CONTENEDOR DE PANTALLAS MUTUAMENTE EXCLUYENTES
+       ENCABEZADO FIJO DE DOS FILAS (STICKY BAR)
+       ========================================================== -->
+  <div class="sticky-header-container">
+    <!-- Fila Superior -->
+    <div class="header-top-row">
+      <div class="header-branding">
+        <div class="badge-icon">
+          <svg style="width: 22px; height: 22px; color: #fbcfe8;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M3 21h18"/><path d="M3 10h18"/><path d="M5 10v11"/><path d="M19 10v11"/><path d="M9 10v11"/><path d="M15 10v11"/><path d="M12 2 2 7h20L12 2z"/>
+          </svg>
+        </div>
+        <div>
+          <div style="font-size: 8px; font-weight: 800; color: #fbcfe8; letter-spacing: 0.5px;">PODER JUDICIAL DEL PERÚ</div>
+          <div id="txt-app-title" style="font-size: 12px; font-weight: 700;">CEJ Electrónico - CSJ Puno</div>
+        </div>
+      </div>
+
+      <div class="header-right-widgets">
+        <!-- Idiomas (ES | EN) -->
+        <div class="lang-switcher-box">
+          <button id="btn-lang-es" onclick="switchLanguage('es')" class="lang-btn active">ES</button>
+          <button id="btn-lang-en" onclick="switchLanguage('en')" class="lang-btn">EN</button>
+        </div>
+
+        <!-- Reloj Digital en Vivo -->
+        <div class="clock-live-badge">
+          <span>🕒</span> <span id="live-clock-text">--:--:--</span>
+        </div>
+
+        <!-- Temporizador 7 Minutos -->
+        <div class="clock-live-badge" style="background: #18020e; border-color: #be185d;">
+          <span id="txt-session-label">Sesión:</span> <strong id="clock-display" style="color: #fbcfe8;">07:00</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fila Inferior (Menú Magenta Fijo) -->
+    <nav class="header-bottom-menu">
+      <button onclick="switchScreen(0)" class="menu-nav-btn" id="nav-item-home">Inicio</button>
+      <button onclick="openInfoView('mision')" class="menu-nav-btn" id="nav-item-mision">Misión</button>
+      <button onclick="openInfoView('vision')" class="menu-nav-btn" id="nav-item-vision">Visión</button>
+      <button onclick="openInfoView('transparencia')" class="menu-nav-btn" id="nav-item-transp">Transparencia</button>
+      <button onclick="openInfoView('contactanos')" class="menu-nav-btn" id="nav-item-contact">Contáctanos</button>
+      <button onclick="startSearchFlow()" class="menu-nav-btn menu-btn-search" id="nav-item-search">🔍 Búsqueda de Expediente</button>
+    </nav>
+  </div>
+
+  <!-- ==========================================================
+       CONTENEDOR DE PANTALLAS (0, 1, 2, 4, 5)
        ========================================================== -->
   <div style="flex-grow: 1; display: flex; flex-direction: column;">
 
-    <!-- ========================================== -->
-    <!-- PANTALLA 0: BIENVENIDA (ESTÁTICA CON TEMIS)-->
-    <!-- ========================================== -->
+    <!-- ============================================================
+         PANTALLA 0: CARGAPANTALLA INICIAL (SPLASH SCREEN MAGENTA)
+         ============================================================ -->
     <div id="screen-0" class="screen-stage active center-wrapper">
-      <div class="academic-card">
-        <div class="academic-card-header">
-          <!-- Balanza de Temis Centrada -->
-          <div style="margin: 0 auto 12px; width: 95px; height: 95px; background: rgba(255,255,255,0.14); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #fbcfe8;">
-            <svg style="width: 65px; height: 65px;" viewBox="0 0 200 200" fill="none">
+      <div class="splash-card">
+        <div class="splash-hero-magenta">
+          <!-- DIOSA THEMIS ENCUADRADA EN MARCO BLANCO -->
+          <div class="themis-white-frame">
+            <svg style="width: 78px; height: 78px;" viewBox="0 0 200 200" fill="none">
               <circle cx="100" cy="100" r="90" fill="#fdf2f8" stroke="#be185d" stroke-width="3" stroke-dasharray="4 2"/>
               <path d="M100 25 L100 160" stroke="#750e2e" stroke-width="4" stroke-linecap="round"/>
               <path d="M80 160 L120 160" stroke="#750e2e" stroke-width="6" stroke-linecap="round"/>
@@ -455,19 +550,19 @@
               <path d="M85 40 Q100 35 115 40" stroke="#3f0314" stroke-width="3"/>
             </svg>
           </div>
-          <h1 id="p0-heading" style="font-size: 18px; font-weight: 800;">SISTEMA DE CONSULTA DE EXPEDIENTES (CEJ / EJE)</h1>
-          <p id="p0-subheading" style="font-size: 12px; color: #fce7f3; margin-top: 4px;">Simulación Jurisdiccional para Derecho e Informática</p>
+          <h1 id="p0-heading" style="font-size: 19px; font-weight: 800;">SISTEMA DE CONSULTA DE EXPEDIENTES (CEJ / EJE)</h1>
+          <p id="p0-subheading" style="font-size: 12px; color: #fce7f3; margin-top: 4px;">Prototipo Académico de Gobierno Digital e Informático</p>
         </div>
 
         <div style="padding: 22px; text-align: left;">
-          <!-- Ficha de Autoría Académica -->
+          <!-- Datos Académicos -->
           <div style="background: #fdf2f8; border: 1px solid var(--mag-border); border-radius: 12px; padding: 14px; margin-bottom: 14px; font-size: 12px; line-height: 1.7;">
             <div><span style="color: var(--text-muted);" id="p0-lbl-author">Estudiante:</span> <strong style="color: var(--mag-primary); font-size: 13px;">Sonia Pilar Condori Ruelas</strong></div>
             <div><span style="color: var(--text-muted);" id="p0-lbl-course">Curso:</span> <strong style="color: var(--mag-dark);">Gobierno Digital e Informático</strong></div>
             <div><span style="color: var(--text-muted);" id="p0-lbl-teacher">Docente:</span> <strong style="color: var(--mag-dark);">Dr. Michael Espinoza Coila</strong></div>
           </div>
 
-          <!-- Advertencia de Simulación -->
+          <!-- Mensaje de Advertencia Académica -->
           <div style="background: #fff1f2; border-left: 4px solid #be185d; padding: 10px 12px; border-radius: 6px; margin-bottom: 18px;">
             <p id="p0-lbl-warning" style="font-size: 11px; color: #4a0418; line-height: 1.5; font-weight: 600;">
               COMUNICADO: El presente trabajo es un producto netamente académico y NO es un sitio oficial del Poder Judicial del Perú. Su diseño responde con exclusividad a fines pedagógicos universitarios.
@@ -482,7 +577,7 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- PANTALLA 1: CARGA INICIAL DINÁMICA (0% A 100%) -->
+    <!-- PANTALLA 1: CARGA INICIAL (0% A 100%)      -->
     <!-- ========================================== -->
     <div id="screen-1" class="screen-stage center-wrapper">
       <div style="max-width: 360px; width: 100%; text-align: center; background: white; padding: 30px 20px; border-radius: 16px; border: 1px solid var(--mag-border); box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
@@ -499,12 +594,12 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- PANTALLA 2: PORTAL ESTATAL Y TEMIS          -->
+    <!-- PANTALLA 2: PRINCIPAL Y BÚSQUEDA           -->
     <!-- ========================================== -->
     <div id="screen-2" class="screen-stage">
       <div style="max-width: 1100px; width: 100%; margin: 20px auto; padding: 0 16px; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;">
         
-        <!-- Temis Interactiva de Pantalla 2 -->
+        <!-- Vista Central con Themis -->
         <div id="box-temis-blank" onclick="startSearchFlow()" style="background: white; border: 1px solid var(--mag-border); border-radius: 20px; text-align: center; padding: 42px 16px; cursor: pointer; box-shadow: 0 4px 15px rgba(0,0,0,0.02);">
           <svg style="width: 130px; height: 130px; margin: 0 auto 14px; display: block;" viewBox="0 0 200 200" fill="none">
             <circle cx="100" cy="100" r="90" fill="#fdf2f8" stroke="#be185d" stroke-width="3" stroke-dasharray="4 2"/>
@@ -527,7 +622,7 @@
           </span>
         </div>
 
-        <!-- Formulario Desplegado tras CAPTCHA y Comunicado -->
+        <!-- Formulario Autocompletado tras CAPTCHA y Comunicado -->
         <div id="panel-search-form" style="display: none; background: white; border: 1px solid var(--mag-border); border-radius: 20px; padding: 22px; max-width: 620px; margin: 0 auto; width: 100%; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
           <div style="background: #3f0314; color: white; padding: 14px 18px; border-radius: 12px 12px 0 0; margin: -22px -22px 18px; display: flex; justify-content: space-between; align-items: center;">
             <strong id="p2-form-heading" style="font-size: 13px;">Búsqueda Jurisdiccional de Causas</strong>
@@ -540,6 +635,7 @@
             <button id="btn-tab-party" onclick="toggleSearchTab('party')" style="background: #e2e8f0; color: #334155; border: none; padding: 7px 14px; border-radius: 6px; font-size: 11px; font-weight: bold; cursor: pointer;">Por Partes Procesales</button>
           </div>
 
+          <!-- Filtro 1: Por Código (Autocompletado con 00174-2019-0-2111-JR-LA-02) -->
           <div id="fields-by-code">
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; margin-bottom: 12px;">
               <div>
@@ -561,13 +657,14 @@
             </div>
           </div>
 
+          <!-- Filtro 2: Por Partes (Autocompletado con Andrés Leonidas Supo Quispe) -->
           <div id="fields-by-party" style="display: none; margin-bottom: 12px;">
             <label style="font-size: 11px; font-weight: bold; color: #64748b;">Demandante o Demandado:</label>
             <input type="text" value="Andrés Leonidas Supo Quispe" style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; margin-top: 4px; font-weight: bold;">
           </div>
 
           <div style="background: #fdf2f8; border: 1px solid #fbcfe8; padding: 10px; border-radius: 8px; font-size: 12px; margin-bottom: 16px;">
-            Expediente asignado: <strong style="color: #750e2e;">00174-2019-0-2111-JR-LA-02</strong> (EsSalud vs Supo)
+            Expediente asignado: <strong style="color: #750e2e;">00174-2019-0-2111-JR-LA-02</strong> (EsSalud vs Supo Quispe)
           </div>
 
           <button onclick="switchScreen(4)" class="btn-action-primary" id="p2-btn-submit">
@@ -579,7 +676,7 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- PANTALLA 4: CARGA DE BASE DE DATOS (0% A 100%) -->
+    <!-- PANTALLA 4: CARGA DE BASE DE DATOS         -->
     <!-- ========================================== -->
     <div id="screen-4" class="screen-stage center-wrapper">
       <div style="max-width: 360px; width: 100%; text-align: center; background: white; padding: 30px 20px; border-radius: 16px; border: 1px solid var(--mag-border); box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
@@ -595,9 +692,9 @@
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- PANTALLA 5: EXPEDIENTE COMPLETO ESTRUCTURADO-->
-    <!-- ========================================== -->
+    <!-- ============================================================
+         PANTALLA 5: EXPEDIENTE COMPLETO EN 4 SECCIONES EJECUTIVAS
+         ============================================================ -->
     <div id="screen-5" class="screen-stage">
       <div style="max-width: 1100px; width: 100%; margin: 16px auto; padding: 0 16px; flex-grow: 1;">
         
@@ -612,18 +709,22 @@
             <div><span style="color: #64748b; display: block;" id="lbl-court">Juzgado:</span> <strong>Juzgado de Trabajo – Zona Norte</strong></div>
             <div><span style="color: #64748b; display: block;" id="lbl-judge">Juez a Cargo:</span> <strong>Huamán Romero, Gonzalo Víctor</strong></div>
             <div><span style="color: #64748b; display: block;" id="lbl-sec">Secretaria Judicial:</span> <strong>Carlos Villán, Rosario</strong></div>
-            <div><span style="color: #64748b; display: block;" id="lbl-matter">Materia Procesal:</span> <strong style="color: #750e2e;">Desnaturalización Laboral (Ley 26636)</strong></div>
+            <div><span style="color: #64748b; display: block;" id="lbl-matter">Materia / Vía:</span> <strong style="color: #750e2e;">Desnaturalización de Contrato / Proceso Ordinario (Ley 26636)</strong></div>
+            <div><span style="color: #64748b; display: block;">Pretensión Principal:</span> <strong>Inclusión en planillas D. Leg. 728 como Almacenero</strong></div>
           </div>
         </div>
 
-        <!-- II. ESTADO, PROGRESO Y LÍNEA DE TIEMPO -->
+        <!-- II. ESTADO, PROCESO Y LÍNEA DE TIEMPO (CON BOTONES FUNCIONALES) -->
         <div style="background: white; border: 1px solid var(--mag-border); border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
-          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #fce7f3; padding-bottom: 8px; margin-bottom: 12px;">
-            <strong id="sec-ii-title" style="color: var(--mag-primary); font-size: 13px;">II. ESTADO, PROGRESO Y LÍNEA DE TIEMPO</strong>
-            <span style="font-size: 11px; color: #047857; font-weight: bold; background: #ecfdf5; padding: 2px 8px; border-radius: 4px;">Etapa: Postulatoria</span>
+          <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #fce7f3; padding-bottom: 8px; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+            <strong id="sec-ii-title" style="color: var(--mag-primary); font-size: 13px;">II. ESTADO, PROCESO Y LÍNEA DE TIEMPO</strong>
+            <div style="display: flex; gap: 8px;">
+              <button onclick="openGeneralReportModal()" class="btn-row-action btn-view-pdf">📊 Ver Reporte General</button>
+              <button onclick="downloadCompleteExpediente()" class="btn-row-action btn-download-pdf">📥 Descargar Expediente PDF</button>
+            </div>
           </div>
 
-          <!-- Barra Visual de Etapa Procesal -->
+          <!-- Stepper Visual -->
           <div class="stepper-bar">
             <div class="stepper-step">
               <div class="stepper-circle stepper-done">✓</div>
@@ -643,26 +744,25 @@
             </div>
           </div>
 
-          <!-- Línea de Tiempo de los Hitos del Caso -->
+          <!-- Línea de Tiempo Dinámica -->
           <div class="timeline-wrapper" id="timeline-flow-box"></div>
         </div>
 
-        <!-- III. PARTES PROCESALES CON CONSULTAS DE INTEROPERABILIDAD -->
+        <!-- III. PARTES PROCESALES E INTEROPERABILIDAD (PISDP) -->
         <div style="background: white; border: 1px solid var(--mag-border); border-radius: 16px; padding: 18px; margin-bottom: 16px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
           <div style="border-bottom: 2px solid #fce7f3; padding-bottom: 8px; margin-bottom: 12px;">
-            <strong id="sec-iii-title" style="color: var(--mag-primary); font-size: 13px;">III. PARTES PROCESALES (INTEROPERABILIDAD INSTITUCIONAL)</strong>
+            <strong id="sec-iii-title" style="color: var(--mag-primary); font-size: 13px;">III. PARTES PROCESALES E INTEROPERABILIDAD (PISDP)</strong>
           </div>
 
-          <!-- Demandante -->
+          <!-- Demandante con Insignias -->
           <div style="background: #fdf2f8; border: 1px solid #fbcfe8; border-radius: 12px; padding: 12px; margin-bottom: 12px;">
             <div style="font-weight: bold; font-size: 13px; color: #750e2e;">DEMANDANTE: Andrés Leonidas Supo Quispe (DNI 02167445)</div>
             <div style="font-size: 11px; color: #64748b; margin: 4px 0 10px;">Abog. Lino Larico Larico (Reg. CAP 47) | Casilla SINOE: 60375</div>
             
-            <!-- Botones Dinámicos de Interoperabilidad -->
             <div style="display: flex; flex-wrap: wrap; gap: 8px;">
               <button onclick="openReniecProtectedModal('Andrés Leonidas Supo Quispe', '02167445')" class="btn-interop btn-reniec">
                 <svg style="width:14px; height:14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-                <span>RENIEC (Identidad Protegida)</span>
+                <span>RENIEC (Enmascarado)</span>
               </button>
               <button onclick="openGenericInterop('MIGRACIONES', 'Andrés Leonidas Supo Quispe', 'DNI: 02167445', 'Sin impedimento de salida del país. Pasaporte ordinario válido.')" class="btn-interop btn-migra">
                 <svg style="width:14px; height:14px;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m4.93 4.93 4.24 4.24"/><path d="m14.83 9.17 4.24-4.24"/></svg>
@@ -692,23 +792,25 @@
           </div>
         </div>
 
-        <!-- IV. SEGUIMIENTO DEL EXPEDIENTE (RESOLUCIONES EN PDF) -->
+        <!-- IV. SEGUIMIENTO DEL EXPEDIENTE (HISTORIAL CON VER Y DESCARGAR) -->
         <div style="background: white; border: 1px solid var(--mag-border); border-radius: 16px; padding: 18px; margin-bottom: 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.02);">
           <div style="border-bottom: 2px solid #fce7f3; padding-bottom: 8px; margin-bottom: 12px;">
             <strong id="sec-iv-title" style="color: var(--mag-primary); font-size: 13px;">IV. SEGUIMIENTO DEL EXPEDIENTE (NOTIFICACIONES Y RESOLUCIONES)</strong>
           </div>
-          <table style="width: 100%; border-collapse: collapse; font-size: 12px;">
-            <thead>
-              <tr style="background: #3f0314; color: white;">
-                <th style="padding: 8px;">N°</th>
-                <th style="padding: 8px;">Fojas</th>
-                <th style="padding: 8px;">Fecha</th>
-                <th style="padding: 8px;">Documento</th>
-                <th style="padding: 8px; text-align: center;">Acción</th>
-              </tr>
-            </thead>
-            <tbody id="acts-table-body"></tbody>
-          </table>
+          <div class="table-container">
+            <table>
+              <thead>
+                <tr>
+                  <th style="padding: 8px;">N°</th>
+                  <th style="padding: 8px;">Fojas</th>
+                  <th style="padding: 8px;">Fecha</th>
+                  <th style="padding: 8px;">Actuación Judicial</th>
+                  <th style="padding: 8px; text-align: center;">Acciones</th>
+                </tr>
+              </thead>
+              <tbody id="acts-table-body"></tbody>
+            </table>
+          </div>
         </div>
 
       </div>
@@ -717,26 +819,50 @@
   </div>
 
   <!-- ==========================================================
-       MODALES FLOTANTES
+       MODAL DE PROTECCIÓN DE DATOS (LEY N° 29733 - MINJUSDH)
        ========================================================== -->
-
-  <!-- MODAL: INFORMACIÓN INSTITUCIONAL DE NAVEGACIÓN -->
-  <div id="modal-info-view" class="modal-overlay">
-    <div class="modal-sheet" style="max-width: 520px; padding: 22px;">
-      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--mag-border); padding-bottom: 8px; margin-bottom: 12px;">
-        <h3 id="info-modal-heading" style="color: var(--mag-primary); font-size: 15px; font-weight: 800;">Información Institucional</h3>
-        <button onclick="closeModal('modal-info-view')" style="background: none; border: none; font-size: 18px; cursor: pointer;">✕</button>
+  <div id="modal-comunicado" class="modal-overlay">
+    <div class="modal-sheet" style="max-width: 500px; padding: 24px; border-top: 5px solid #750e2e;">
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+        <svg style="width: 26px; height: 26px; color: #750e2e;" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 9v4"/><path d="M12 17h.01"/><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/>
+        </svg>
+        <h3 style="color: #3f0314; font-size: 15px; font-weight: 800; text-transform: uppercase;">COMUNICADO OFICIAL</h3>
       </div>
-      <div id="info-modal-text" style="font-size: 13px; line-height: 1.6; color: var(--text-main); margin-bottom: 16px;"></div>
-      <button onclick="closeModal('modal-info-view')" class="btn-action-primary" style="padding: 8px 14px; font-size: 12px;">Cerrar</button>
+      <div style="background: #fdf2f8; border: 1px solid #fbcfe8; padding: 14px; border-radius: 10px; font-size: 12px; line-height: 1.6; color: #334155; text-align: justify; margin-bottom: 16px;">
+        A partir de la fecha, se ha incluido un nuevo campo como medida técnica de protección, para que solo las partes puedan acceder a sus expedientes; a requerimiento de la <strong>Autoridad Nacional de Protección de Datos Personales</strong> y la <strong>Dirección de Fiscalización e Instrucción del Ministerio de Justicia y Derechos Humanos - MINJUSDH</strong>. Al amparo de la <strong>Ley N° 29733</strong>, Ley de Protección de Datos Personales.
+      </div>
+      <button onclick="acceptComunicadoAndShowSearch()" class="btn-action-primary">
+        <span>He leído y Acepto el Comunicado</span>
+      </button>
     </div>
   </div>
 
-  <!-- MODAL: RENIEC CON FOTOGRAFÍA Y DATOS CENSURADOS -->
+  <!-- ==========================================================
+       MODAL CAPTCHA DISTORSIONADO INTERACTIVO
+       ========================================================== -->
+  <div id="modal-captcha" class="modal-overlay">
+    <div class="modal-sheet" style="max-width: 420px; padding: 22px;">
+      <h3 style="color: #3f0314; font-size: 15px; font-weight: bold; margin-bottom: 10px;">Validación de Seguridad CAPTCHA</h3>
+      <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px;">
+        <div id="captcha-display-text" style="background: #18020e; color: #fbcfe8; font-family: monospace; font-size: 21px; font-weight: 800; letter-spacing: 5px; padding: 8px 14px; border-radius: 8px; text-decoration: line-through; transform: skewX(-10deg);">
+          8M4X1
+        </div>
+        <button onclick="generateRandomCaptcha()" style="padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; background: white;" title="Generar nuevo código">↻</button>
+        <input type="text" id="captcha-input-field" placeholder="Escriba el código" style="flex-grow: 1; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; text-transform: uppercase; font-weight: bold;">
+      </div>
+      <button onclick="validateCaptchaAction()" class="btn-action-primary">Validar y Continuar</button>
+      <div id="captcha-error-text" style="display: none; color: #e11d48; font-size: 11px; margin-top: 6px; text-align: center; font-weight: bold;">Código incorrecto. Intente de nuevo.</div>
+    </div>
+  </div>
+
+  <!-- ==========================================================
+       MODAL: RENIEC CON FOTOGRAFÍA Y ENMASCARAMIENTO ESTRICTO
+       ========================================================== -->
   <div id="modal-reniec" class="modal-overlay">
     <div class="modal-sheet" style="max-width: 520px; padding: 20px;">
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #0284c7; padding-bottom: 8px; margin-bottom: 14px;">
-        <div style="font-weight: 800; color: #0284c7; font-size: 14px;">RENIEC - CONSULTA REGISTRAL EN LÍNEA</div>
+        <div style="font-weight: 800; color: #0284c7; font-size: 13px;">RENIEC - CONSULTA REGISTRAL CON PROTECCIÓN DE DATOS</div>
         <button onclick="closeModal('modal-reniec')" style="background: none; border: none; font-size: 18px; cursor: pointer;">✕</button>
       </div>
 
@@ -750,25 +876,56 @@
           <div style="position: absolute; bottom: 0; width: 100%; background: rgba(2, 132, 199, 0.85); color: white; font-size: 8px; text-align: center; padding: 1px;">VERIFICADO</div>
         </div>
 
-        <!-- Datos con Censura de Protección -->
-        <div style="flex-grow: 1; font-size: 11px; line-height: 1.6;">
-          <div><span style="color: #64748b;">Nombres:</span> <strong id="reniec-txt-nom">ANDRES ********</strong></div>
-          <div><span style="color: #64748b;">Apellidos:</span> <strong id="reniec-txt-ape">SUPO ********</strong></div>
+        <!-- Datos Enmascarados (Ej. A***** L****** S*** Q***** y DNI 0216****) -->
+        <div style="flex-grow: 1; font-size: 11px; line-height: 1.7;">
+          <div><span style="color: #64748b;">Nombres:</span> <strong id="reniec-txt-nom">A***** L******</strong></div>
+          <div><span style="color: #64748b;">Apellidos:</span> <strong id="reniec-txt-ape">S*** Q*****</strong></div>
           <div><span style="color: #64748b;">DNI:</span> <strong id="reniec-txt-dni">0216****</strong></div>
-          <div><span style="color: #64748b;">Fecha Nacimiento:</span> <strong>14/08/19**</strong></div>
-          <div><span style="color: #64748b;">Ubigeo:</span> <strong>211101 (JULIACA - PUNO)</strong></div>
-          <div><span style="color: #64748b;">Dirección:</span> <strong>AV. MANCO CAPAC N° 9** (CENSURADO)</strong></div>
-          <div><span style="color: #64748b;">Estado:</span> <span style="color: #059669; font-weight: bold;">ACTIVO / SIN RESTRICCIÓN</span></div>
+          <div><span style="color: #64748b;">Fecha Nac.:</span> <strong>14/08/19**</strong></div>
+          <div><span style="color: #64748b;">Ubigeo:</span> <strong>211101 (JULIACA - SAN ROMÁN)</strong></div>
+          <div><span style="color: #64748b;">Dirección:</span> <strong>AV. MANCO CAPAC N° 9** (PROTEGIDO)</strong></div>
+          <div><span style="color: #64748b;">Estado:</span> <span style="color: #059669; font-weight: bold;">CIUDADANO HÁBIL</span></div>
         </div>
       </div>
 
       <div style="background: #eff6ff; border: 1px solid #bfdbfe; padding: 8px 10px; border-radius: 6px; font-size: 10px; color: #1e40af; margin-top: 10px;">
-        * Medida técnica de seguridad: Información anonimizada con asteriscos conforme a la Ley N° 29733 (Ley de Protección de Datos Personales).
+        * Enmascaramiento técnico de datos confidenciales aplicado conforme a la Ley N° 29733 (Ley de Protección de Datos Personales).
       </div>
     </div>
   </div>
 
-  <!-- MODAL: INTEROPERABILIDAD GENÉRICA -->
+  <!-- ==========================================================
+       MODAL: VISOR DE DOCUMENTO JUDICIAL TIPO PDF
+       ========================================================== -->
+  <div id="modal-pdf-view" class="modal-overlay">
+    <div class="modal-sheet" style="max-width: 680px; background: #e2e8f0;">
+      <div class="pdf-bar">
+        <span id="pdf-doc-name">Resolucion_01_2019.pdf</span>
+        <div style="display: flex; gap: 6px; align-items: center;">
+          <button onclick="zoomPdfDoc(-0.1)" style="background: #475569; border: none; color: white; padding: 3px 8px; border-radius: 4px; cursor: pointer;">-</button>
+          <button onclick="zoomPdfDoc(0.1)" style="background: #475569; border: none; color: white; padding: 3px 8px; border-radius: 4px; cursor: pointer;">+</button>
+          <button onclick="downloadSinglePdf()" style="background: #475569; border: none; color: white; padding: 3px 8px; border-radius: 4px; cursor: pointer;">💾 Descargar</button>
+          <button onclick="window.print()" style="background: #475569; border: none; color: white; padding: 3px 8px; border-radius: 4px; cursor: pointer;">🖨️ Imprimir</button>
+          <button onclick="closeModal('modal-pdf-view')" style="background: #ef4444; border: none; color: white; padding: 3px 8px; border-radius: 4px; cursor: pointer;">✕</button>
+        </div>
+      </div>
+      <div class="pdf-paper" id="pdf-doc-paper"></div>
+    </div>
+  </div>
+
+  <!-- MODAL: INFORMACIÓN INSTITUCIONAL DE NAVEGACIÓN -->
+  <div id="modal-info-view" class="modal-overlay">
+    <div class="modal-sheet" style="max-width: 520px; padding: 22px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--mag-border); padding-bottom: 8px; margin-bottom: 12px;">
+        <h3 id="info-modal-heading" style="color: var(--mag-primary); font-size: 15px; font-weight: 800;">Información Institucional</h3>
+        <button onclick="closeModal('modal-info-view')" style="background: none; border: none; font-size: 18px; cursor: pointer;">✕</button>
+      </div>
+      <div id="info-modal-text" style="font-size: 13px; line-height: 1.6; color: var(--text-main); margin-bottom: 16px;"></div>
+      <button onclick="closeModal('modal-info-view')" class="btn-action-primary" style="padding: 8px 14px; font-size: 12px;">Cerrar</button>
+    </div>
+  </div>
+
+  <!-- MODAL: INTEROPERABILIDAD GENÉRICA (MIGRA, PNP, INPE) -->
   <div id="modal-generic-interop" class="modal-overlay">
     <div class="modal-sheet" style="max-width: 480px; padding: 20px;">
       <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--mag-border); padding-bottom: 8px; margin-bottom: 12px;">
@@ -779,50 +936,6 @@
       <div style="font-size: 11px; color: #64748b; margin-bottom: 12px;">Doc: <strong id="gen-interop-number"></strong></div>
       <div id="gen-interop-details" style="background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px; border-radius: 8px; font-size: 12px; line-height: 1.5; margin-bottom: 14px;"></div>
       <button onclick="closeModal('modal-generic-interop')" class="btn-action-primary" style="padding: 8px 14px; font-size: 11px;">Cerrar Consulta</button>
-    </div>
-  </div>
-
-  <!-- MODAL: VISOR DE RESOLUCIONES / DOCUMENTOS TIPO PDF -->
-  <div id="modal-pdf-view" class="modal-overlay">
-    <div class="modal-sheet" style="max-width: 680px; background: #e2e8f0;">
-      <div class="pdf-bar">
-        <span id="pdf-doc-name">Resolucion_01_2019.pdf</span>
-        <div style="display: flex; gap: 6px; align-items: center;">
-          <button onclick="zoomPdfDoc(-0.1)" style="background: #475569; border: none; color: white; padding: 3px 8px; border-radius: 4px; cursor: pointer;">-</button>
-          <button onclick="zoomPdfDoc(0.1)" style="background: #475569; border: none; color: white; padding: 3px 8px; border-radius: 4px; cursor: pointer;">+</button>
-          <button onclick="downloadPdfSimulated()" style="background: #475569; border: none; color: white; padding: 3px 8px; border-radius: 4px; cursor: pointer;">💾 Descargar</button>
-          <button onclick="window.print()" style="background: #475569; border: none; color: white; padding: 3px 8px; border-radius: 4px; cursor: pointer;">🖨️ Imprimir</button>
-          <button onclick="closeModal('modal-pdf-view')" style="background: #ef4444; border: none; color: white; padding: 3px 8px; border-radius: 4px; cursor: pointer;">✕</button>
-        </div>
-      </div>
-      <div class="pdf-paper" id="pdf-doc-paper"></div>
-    </div>
-  </div>
-
-  <!-- MODAL: COMUNICADO MINJUSDH -->
-  <div id="modal-comunicado" class="modal-overlay">
-    <div class="modal-sheet" style="max-width: 480px; padding: 22px;">
-      <h3 style="color: #3f0314; font-size: 15px; font-weight: 800; margin-bottom: 10px;">COMUNICADO OFICIAL</h3>
-      <div style="background: #fdf2f8; border: 1px solid #fbcfe8; padding: 12px; border-radius: 8px; font-size: 12px; line-height: 1.6; color: #334155; text-align: justify; margin-bottom: 14px;">
-        A partir de la fecha, se ha incluido un nuevo campo como medida técnica de protección, para que solo las partes puedan acceder a sus expedientes; a requerimiento de la <strong>Autoridad Nacional de Protección de Datos Personales</strong> y la <strong>Dirección de Fiscalización e Instrucción del Ministerio de Justicia y Derechos Humanos - MINJUSDH</strong>. Al amparo de la <strong>Ley N° 29733</strong>, Ley de Protección de Datos Personales.
-      </div>
-      <button onclick="acceptComunicadoAndShowSearch()" class="btn-action-primary">He leído y Acepto el Comunicado</button>
-    </div>
-  </div>
-
-  <!-- MODAL: CAPTCHA FLOTANTE -->
-  <div id="modal-captcha" class="modal-overlay">
-    <div class="modal-sheet" style="max-width: 420px; padding: 22px;">
-      <h3 style="color: #3f0314; font-size: 15px; font-weight: bold; margin-bottom: 10px;">Seguridad CAPTCHA</h3>
-      <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 12px;">
-        <div id="captcha-display-text" style="background: #18020e; color: #fbcfe8; font-family: monospace; font-size: 20px; font-weight: 800; letter-spacing: 4px; padding: 8px 14px; border-radius: 8px; text-decoration: line-through;">
-          8M4X1
-        </div>
-        <button onclick="generateRandomCaptcha()" style="padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px; cursor: pointer; background: white;">↻</button>
-        <input type="text" id="captcha-input-field" placeholder="Código" style="flex-grow: 1; padding: 8px; border: 1px solid #cbd5e1; border-radius: 6px; text-transform: uppercase; font-weight: bold;">
-      </div>
-      <button onclick="validateCaptchaAction()" class="btn-action-primary">Validar y Continuar</button>
-      <div id="captcha-error-text" style="display: none; color: #e11d48; font-size: 11px; margin-top: 6px; text-align: center;">Código incorrecto. Intente de nuevo.</div>
     </div>
   </div>
 
@@ -847,7 +960,7 @@
       <button onclick="toggleChatbotWindow()" style="background: none; border: none; color: white; font-size: 16px; cursor: pointer;">✕</button>
     </div>
 
-    <!-- Preguntas rápidas -->
+    <!-- Preguntas Rápidas -->
     <div style="display: flex; gap: 4px; padding: 6px 10px; background: #fdf2f8; border-bottom: 1px solid var(--mag-border); overflow-x: auto;">
       <button onclick="quickAskBot('¿Dónde está la demanda?')" style="background: white; border: 1px solid var(--mag-border); border-radius: 12px; padding: 2px 8px; font-size: 9px; cursor: pointer; white-space: nowrap; color: #750e2e;">📄 Demanda</button>
       <button onclick="quickAskBot('¿Quién es el juez?')" style="background: white; border: 1px solid var(--mag-border); border-radius: 12px; padding: 2px 8px; font-size: 9px; cursor: pointer; white-space: nowrap; color: #750e2e;">⚖️ Juez</button>
@@ -874,10 +987,10 @@
   </style>
 
   <!-- ==========================================================
-       LÓGICA JAVASCRIPT COMPLETA Y FUNCIONAL
+       LÓGICA JAVASCRIPT COMPLETA Y ROBUSTA
        ========================================================== -->
   <script>
-    // BASE DE DATOS DE ACTUADOS JUDICIALES
+    // BASE DE DATOS DE ACTUADOS JUDICIALES DEL EXPEDIENTE REAL
     var ACTUADOS = [
       { n: 1, f: "Fjs. 1-2", d: "26/06/2019", t: "Cargo / Carátula", des: "Ingreso en Mesa de Partes Única de Juliaca.", title: "Carátula de Ingreso CDG N° 00174-2019", content: "<p><strong>PODER JUDICIAL DEL PERÚ - CORTE SUPERIOR DE PUNO</strong></p><p>Expediente: 00174-2019-0-2111-JR-LA-02</p><p>Materia: Desnaturalización de Contrato</p><p>Ingreso: 26/06/2019 11:31:38 - Fojas: 26</p>" },
       { n: 2, f: "Fjs. 2-26", d: "26/06/2019", t: "Escrito N° 01 (Demanda)", des: "Demanda laboral ordinaria de desnaturalización.", title: "Escrito 01 - Demanda Laboral", content: "<p><strong>SEÑOR JUEZ DE TRABAJO DE SAN ROMÁN - JULIACA:</strong></p><p>Andrés Leonidas Supo Quispe solicita se declare la desnaturalización de la intermediación laboral prestada a EsSalud mediante SILSA y se ordene la inclusión en planillas a plazo indeterminado (D. Leg. 728).</p>" },
@@ -893,7 +1006,7 @@
       { n: 12, f: "Fjs. 108-124+", d: "25/09/2019", t: "Contestación", des: "EsSalud contesta mediante apoderado.", title: "Contestación de Demanda - EsSalud", content: "<p>EsSalud se apersona mediante Hernán López Alférez, señala casilla 59629 y solicita declarar infundada la demanda alegando falta de vacante en el CAP.</p>" }
     ];
 
-    // CONTROL CENTRALIZADO DE PANTALLAS (P0, P1, P2, P4, P5)
+    // CONTROL DE PANTALLAS INDEPENDIENTES
     function switchScreen(screenNum) {
       document.querySelectorAll('.screen-stage').forEach(el => el.classList.remove('active'));
       const target = document.getElementById('screen-' + screenNum);
@@ -905,7 +1018,7 @@
       if (screenNum === 5) renderScreen5Content();
     }
 
-    // CARGADOR DINÁMICO 0% A 100%
+    // CARGADOR DINÁMICO (0% A 100%)
     function startDynamicLoader(barId, pctId, nextScreen) {
       let pct = 0;
       const bar = document.getElementById(barId);
@@ -924,7 +1037,18 @@
       }, 50);
     }
 
-    // WORKFLOW DE BÚSQUEDA
+    // RELOJ DIGITAL EN VIVO
+    function updateLiveClock() {
+      const now = new Date();
+      const h = String(now.getHours()).padStart(2, '0');
+      const m = String(now.getMinutes()).padStart(2, '0');
+      const s = String(now.getSeconds()).padStart(2, '0');
+      document.getElementById('live-clock-text').innerText = `${h}:${m}:${s}`;
+    }
+    setInterval(updateLiveClock, 1000);
+    updateLiveClock();
+
+    // WORKFLOW DE BÚSQUEDA Y CAPTCHA
     function startSearchFlow() {
       openModal('modal-captcha');
       generateRandomCaptcha();
@@ -958,7 +1082,7 @@
       }
     }
 
-    // CAPTCHA
+    // CAPTCHA INTERACTIVO
     let currentCaptchaCode = "";
     function generateRandomCaptcha() {
       const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -974,7 +1098,7 @@
       const input = document.getElementById('captcha-input-field').value.trim().toUpperCase();
       if (input === currentCaptchaCode) {
         closeModal('modal-captcha');
-        openModal('modal-comunicado');
+        openModal('modal-comunicado'); // Pasa al cargapantalla de protección de datos
       } else {
         document.getElementById('captcha-error-text').style.display = 'block';
         generateRandomCaptcha();
@@ -988,7 +1112,7 @@
       document.getElementById('panel-search-form').style.display = 'block';
     }
 
-    // MODALES
+    // GESTIÓN DE MODALES
     function openModal(id) { document.getElementById(id).style.display = 'flex'; }
     function closeModal(id) { document.getElementById(id).style.display = 'none'; }
 
@@ -1013,10 +1137,11 @@
       openModal('modal-info-view');
     }
 
-    // INTEROPERABILIDAD RENIEC (CENSURADA)
+    // INTEROPERABILIDAD RENIEC (ENMASCARADA CON ASTERISCOS)
     function openReniecProtectedModal(nom, dni) {
-      document.getElementById('reniec-txt-nom').innerText = nom.split(' ')[0] + " ********";
-      document.getElementById('reniec-txt-ape').innerText = (nom.split(' ')[1] || 'QUISPE') + " ********";
+      // Formato solicitado: As Ls So Qe y DNI enmascarado
+      document.getElementById('reniec-txt-nom').innerText = "A***** L******";
+      document.getElementById('reniec-txt-ape').innerText = "S*** Q*****";
       document.getElementById('reniec-txt-dni').innerText = dni.substring(0, 4) + "****";
       openModal('modal-reniec');
     }
@@ -1029,24 +1154,27 @@
       openModal('modal-generic-interop');
     }
 
-    // VISOR DE RESOLUCIONES / DOCUMENTOS TIPO PDF
+    // VISOR DE PDF CON ZOOM Y DESCARGA
     let pdfScaleLevel = 1;
+    let currentActiveAct = null;
+
     function openPdfDocument(num) {
       const act = ACTUADOS.find(a => a.n === num);
       if (!act) return;
+      currentActiveAct = act;
       pdfScaleLevel = 1;
       document.getElementById('pdf-doc-name').innerText = `${act.t.replace(/[^a-zA-Z0-9]/g, '_')}.pdf`;
       const paper = document.getElementById('pdf-doc-paper');
       paper.style.transform = `scale(${pdfScaleLevel})`;
       paper.innerHTML = `
         <div style="border-bottom: 2px solid #334155; padding-bottom: 8px; margin-bottom: 14px; display: flex; justify-content: space-between;">
-          <strong>PODER JUDICIAL DEL PERÚ</strong>
+          <strong>PODER JUDICIAL DEL PERÚ - SEDE JULIACA</strong>
           <span style="font-size: 11px;">${act.f}</span>
         </div>
-        <h3 style="font-size: 14px; margin-bottom: 10px;">${act.title}</h3>
+        <h3 style="font-size: 14px; margin-bottom: 10px; color: #750e2e;">${act.title}</h3>
         <div>${act.content}</div>
         <div style="margin-top: 35px; border-top: 1px dashed #94a3b8; padding-top: 10px; font-size: 10px; color: #64748b;">
-          Documento suscrito con Firma Digital Oficial conforme a la Ley N° 27269. Código de verificación electrónica: PJ-${act.n}9827319028.
+          Documento digital verificado con firma electrónica certificada Ley N° 27269. Código de verificación electrónica: PJ-${act.n}9827319028.
         </div>
       `;
       openModal('modal-pdf-view');
@@ -1059,16 +1187,34 @@
       document.getElementById('pdf-doc-paper').style.transform = `scale(${pdfScaleLevel})`;
     }
 
-    function downloadPdfSimulated() {
+    function downloadSinglePdf(num) {
+      const target = num ? ACTUADOS.find(a => a.n === num) : currentActiveAct;
+      const fileName = target ? `${target.t.replace(/[^a-zA-Z0-9]/g, '_')}.pdf` : 'Resolucion_Judicial.pdf';
+      const fileData = `PODER JUDICIAL DEL PERÚ\nEXPEDIENTE: 00174-2019-0-2111-JR-LA-02\nACTUADO: ${target ? target.title : 'Resolución'}\nFECHA: ${target ? target.d : '2019'}\nFOJAS: ${target ? target.f : '1'}\nESTADO: CONFORME AL ARCHIVO DIGITAL`;
+      
+      const blob = new Blob([fileData], { type: 'application/pdf' });
       const link = document.createElement('a');
-      link.href = 'data:text/plain;charset=utf-8,' + encodeURIComponent('Expediente Judicial Electrónico 00174-2019-0-2111-JR-LA-02');
-      link.download = document.getElementById('pdf-doc-name').innerText;
+      link.href = URL.createObjectURL(blob);
+      link.download = fileName;
       link.click();
+    }
+
+    function downloadCompleteExpediente() {
+      const fileData = `PODER JUDICIAL DEL PERÚ - CORTE SUPERIOR DE JUSTICIA DE PUNO\nEXPEDIENTE JUDICIAL ELECTRÓNICO N° 00174-2019-0-2111-JR-LA-02\nDEMANDANTE: ANDRÉS LEONIDAS SUPO QUISPE\nDEMANDADA: ESSALUD RED ASISTENCIAL JULIACA\nMATERIA: DESNATURALIZACIÓN DE INTERMEDIACIÓN LABORAL\nTOTAL DE ACTUADOS: 12 REGISTROS DIGITALIZADOS\nCERTIFICACIÓN DIGITAL VÁLIDA.`;
+      const blob = new Blob([fileData], { type: 'application/pdf' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = "Expediente_Completo_00174-2019.pdf";
+      link.click();
+    }
+
+    function openGeneralReportModal() {
+      alert("REPORTE GENERAL DEL EXPEDIENTE 00174-2019:\n\n• Estado del Proceso: Postulatoria con contestación\n• Cuaderno: Principal (Fojas 1 al 124+)\n• Especialista: Rosario Carlos Villán\n• Órgano: Juzgado de Trabajo Zona Norte - Juliaca");
     }
 
     // RENDERIZADO PANTALLA 5
     function renderScreen5Content() {
-      // 1. Línea de tiempo
+      // 1. Línea de tiempo interactiva
       const tBox = document.getElementById('timeline-flow-box');
       tBox.innerHTML = '';
       [ACTUADOS[0], ACTUADOS[1], ACTUADOS[3], ACTUADOS[5], ACTUADOS[8], ACTUADOS[11]].forEach(item => {
@@ -1082,13 +1228,16 @@
               <span style="color:#64748b; font-family:monospace;">${item.d}</span>
             </div>
             <div style="font-size:11px; color:#334155; margin-bottom:6px;">${item.des}</div>
-            <button onclick="openPdfDocument(${item.n})" style="background:#750e2e; color:white; border:none; padding:3px 8px; border-radius:4px; font-size:10px; cursor:pointer;">Ver PDF</button>
+            <div style="display:flex; gap:6px;">
+              <button onclick="openPdfDocument(${item.n})" class="btn-row-action btn-view-pdf" style="font-size:10px; padding:2px 6px;">Ver PDF</button>
+              <button onclick="downloadSinglePdf(${item.n})" class="btn-row-action btn-download-pdf" style="font-size:10px; padding:2px 6px;">Descargar</button>
+            </div>
           </div>
         `;
         tBox.appendChild(div);
       });
 
-      // 2. Tabla de actuados
+      // 2. Tabla de actuados con DOS BOTONES: Ver PDF y Descargar PDF
       const tbody = document.getElementById('acts-table-body');
       tbody.innerHTML = '';
       ACTUADOS.forEach(a => {
@@ -1098,15 +1247,16 @@
           <td style="padding:7px; font-family:monospace;">${a.f}</td>
           <td style="padding:7px;">${a.d}</td>
           <td style="padding:7px; font-weight:bold; color:#750e2e;">${a.t}</td>
-          <td style="padding:7px; text-align:center;">
-            <button onclick="openPdfDocument(${a.n})" style="background:#be185d; color:white; border:none; padding:4px 8px; border-radius:4px; font-size:11px; cursor:pointer;">📄 Ver PDF</button>
+          <td style="padding:7px; text-align:center; white-space:nowrap;">
+            <button onclick="openPdfDocument(${a.n})" class="btn-row-action btn-view-pdf">📄 Ver PDF</button>
+            <button onclick="downloadSinglePdf(${a.n})" class="btn-row-action btn-download-pdf" style="margin-left:4px;">📥 Descargar</button>
           </td>
         `;
         tbody.appendChild(tr);
       });
     }
 
-    // CHATBOT IURISNIANO (CONTEXTUAL DEL EXPEDIENTE)
+    // CHATBOT IURISNIANO FLOTANTE
     function toggleChatbotWindow() {
       const w = document.getElementById('chatbot-dialog');
       w.style.display = w.style.display === 'flex' ? 'none' : 'flex';
@@ -1162,22 +1312,22 @@
         home: "Inicio", mision: "Misión", vision: "Visión", transp: "Transparencia", contact: "Contáctanos", searchBtn: "🔍 Búsqueda de Expediente",
         sessionLbl: "Sesión:",
         p0Head: "SISTEMA DE CONSULTA DE EXPEDIENTES (CEJ / EJE)",
-        p0Sub: "Simulación Jurisdiccional para Derecho e Informática",
+        p0Sub: "Prototipo Académico de Gobierno Digital e Informático",
         p0Btn: "Ingresar al Sistema Jurisdiccional",
         p1Title: "Estableciendo Conexión Cifrada", p1Desc: "Accediendo a la Sede Central Juliaca - CSJ Puno...",
         p4Title: "Indexando Cuaderno Laboral Digital", p4Desc: "Recuperando resoluciones, notificaciones y fojas...",
-        secI: "I. REPORTE DE EXPEDIENTE", secII: "II. ESTADO, PROGRESO Y LÍNEA DE TIEMPO", secIII: "III. PARTES PROCESALES (INTEROPERABILIDAD INSTITUCIONAL)", secIV: "IV. SEGUIMIENTO DEL EXPEDIENTE (NOTIFICACIONES Y RESOLUCIONES)"
+        secI: "I. REPORTE DE EXPEDIENTE", secII: "II. ESTADO, PROGRESO Y LÍNEA DE TIEMPO", secIII: "III. PARTES PROCESALES E INTEROPERABILIDAD (PISDP)", secIV: "IV. SEGUIMIENTO DEL EXPEDIENTE (NOTIFICACIONES Y RESOLUCIONES)"
       },
       en: {
-        appTitle: "Electronic Case Tracking - Puno",
+        appTitle: "Electronic Case Tracking - CSJ Puno",
         home: "Home", mision: "Mission", vision: "Vision", transp: "Transparency", contact: "Contact", searchBtn: "🔍 Case Search",
         sessionLbl: "Session:",
         p0Head: "ELECTRONIC COURT RECORD INQUIRY (CEJ / EJE)",
-        p0Sub: "Academic Simulation for Digital Government and IT Law",
+        p0Sub: "Academic Prototype for Digital Government and IT Law",
         p0Btn: "Access Jurisdictional System",
         p1Title: "Establishing Encrypted Connection", p1Desc: "Connecting to Juliaca Headquarters - CSJ Puno...",
         p4Title: "Indexing Digital Case File", p4Desc: "Retrieving case orders, service notices and filings...",
-        secI: "I. CASE REPORT", secII: "II. STATUS, PROGRESS AND TIMELINE", secIII: "III. PROCEDURAL PARTIES (INTEROPERABILITY)", secIV: "IV. CASE TRACKING (NOTIFICATIONS AND RESOLUTIONS)"
+        secI: "I. CASE REPORT", secII: "II. STATUS, PROGRESS AND TIMELINE", secIII: "III. PROCEDURAL PARTIES AND INTEROPERABILITY (PISDP)", secIV: "IV. CASE TRACKING (NOTIFICATIONS AND RESOLUTIONS)"
       }
     };
 
